@@ -90,7 +90,19 @@ class Agent(BaseModel):
 
             max_avg_ep_reward = max(max_avg_ep_reward, avg_ep_reward)
 
-
+          if self.step > 180:
+            self.inject_summary({
+                'average.reward': avg_reward,
+                'average.loss': avg_loss,
+                'average.q': avg_q,
+                'episode.max reward': max_ep_reward,
+                'episode.min reward': min_ep_reward,
+                'episode.avg reward': avg_ep_reward,
+                'episode.num of game': num_game,
+                'episode.rewards': ep_rewards,
+                'episode.actions': actions,
+                'training.learning_rate': self.learning_rate_op.eval({self.learning_rate_step: self.step}),
+              }, self.step)
 
           num_game = 0
           total_reward = 0.
@@ -289,6 +301,24 @@ class Agent(BaseModel):
       self.optim = tf.train.RMSPropOptimizer(
           self.learning_rate_op, momentum=0.95, epsilon=0.01).minimize(self.loss)
 
+    with tf.variable_scope('summary'):
+      scalar_summary_tags = ['average.reward', 'average.loss', 'average.q', \
+          'episode.max reward', 'episode.min reward', 'episode.avg reward', 'episode.num of game', 'training.learning_rate']
+
+      self.summary_placeholders = {}
+      self.summary_ops = {}
+
+      for tag in scalar_summary_tags:
+        self.summary_placeholders[tag] = tf.placeholder('float32', None, name=tag.replace(' ', '_'))
+        self.summary_ops[tag]  = tf.scalar_summary("%s-%s/%s" % (self.env_name, self.env_type, tag), self.summary_placeholders[tag])
+
+      histogram_summary_tags = ['episode.rewards', 'episode.actions']
+
+      for tag in histogram_summary_tags:
+        self.summary_placeholders[tag] = tf.placeholder('float32', None, name=tag.replace(' ', '_'))
+        self.summary_ops[tag]  = tf.histogram_summary(tag, self.summary_placeholders[tag])
+
+        self.writer = tf.train.SummaryWriter('./logs/%s' % self.model_dir, self.sess.graph)
 
     tf.initialize_all_variables().run()
 
@@ -323,7 +353,11 @@ class Agent(BaseModel):
     self.update_target_q_network()
 
   def inject_summary(self, tag_dict, step):
-    pass
+    summary_str_lists = self.sess.run([self.summary_ops[tag] for tag in tag_dict.keys()], {
+      self.summary_placeholders[tag]: value for tag, value in tag_dict.items()
+    })
+    for summary_str in summary_str_lists:
+      self.writer.add_summary(summary_str, self.step)
 
   def play(self, n_step=10000, n_episode=100, test_ep=None, render=False):
     if test_ep == None:
