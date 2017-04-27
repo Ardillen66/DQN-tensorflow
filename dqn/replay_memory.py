@@ -96,3 +96,34 @@ class ReplayMemory:
         zip(['actions', 'rewards', 'screens', 'terminals', 'prestates', 'poststates'],
             [self.actions, self.rewards, self.screens, self.terminals, self.prestates, self.poststates])):
       array = load_npy(os.path.join(self.model_dir, name))
+
+class ReplayRanked(ReplayMemory):
+  """
+  Wrapper class for prioirity replay to match base class
+  TODO: implement own or defer to github code?
+  """
+  
+
+  def __init__(self, config, model_dir):
+    super(ReplayRanked, self).__init__(config, model_dir)
+    #TODO Initialize binary heap PQ
+
+  def add(self, screen, reward, action, terminal):
+    #TODO: convert params to fit chosen implementation or just add using our own
+    super.add(screen, reward, action, terminal)
+    #TODO: add to priority queue
+
+  def getState(self, index):
+    #TODO: does this need to be reïmplemented?
+    pass
+
+  def sample(self):
+    #TODO: this one needs to be completely reïmplemented
+    pass
+
+  def save(self):
+    #TODO also save priorities
+
+  def load(self):
+    #TODO also load priorities
+    
