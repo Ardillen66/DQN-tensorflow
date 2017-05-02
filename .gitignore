@@ -10,6 +10,8 @@ samples
 *.tgz
 *.zip
 *.tar.gz
+*.out
+*.err
 
 
 # Created by https://www.gitignore.io/api/python,vim
