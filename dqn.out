@@ -1,0 +1,267 @@
+ [*] GPU : 1.0000
+{'_save_step': 500000,
+ '_test_step': 50000,
+ 'action_repeat': 4,
+ 'backend': 'tf',
+ 'batch_size': 32,
+ 'cnn_format': 'NHWC',
+ 'discount': 0.99,
+ 'display': False,
+ 'double_q': False,
+ 'dueling': False,
+ 'env_name': 'Breakout-v0',
+ 'env_type': 'detail',
+ 'ep_end': 0.1,
+ 'ep_end_t': 1000000,
+ 'ep_start': 1.0,
+ 'history_length': 4,
+ 'learn_start': 50000.0,
+ 'learning_rate': 0.00025,
+ 'learning_rate_decay': 0.96,
+ 'learning_rate_decay_step': 50000,
+ 'learning_rate_minimum': 0.00025,
+ 'max_delta': 1,
+ 'max_reward': 1.0,
+ 'max_step': 50000000,
+ 'memory_size': 1000000,
+ 'min_delta': -1,
+ 'min_reward': -1.0,
+ 'model': 'm1',
+ 'random_start': 30,
+ 'scale': 10000,
+ 'screen_height': 84,
+ 'screen_width': 84,
+ 'target_q_update_step': 10000,
+ 'train_frequency': 4}
+ [*] Loading checkpoints...
+ [*] Load SUCCESS: checkpoints/Breakout-v0/min_delta--1/max_delta-1/history_length-4/train_frequency-4/target_q_update_step-10000/double_q-False/memory_size-1000000/action_repeat-4/ep_end_t-1000000/dueling-False/min_reward--1.0/backend-tf/random_start-30/scale-10000/env_type-detail/learning_rate_decay_step-50000/ep_start-1.0/screen_width-84/learn_start-50000.0/cnn_format-NHWC/learning_rate-0.00025/batch_size-32/discount-0.99/max_step-50000000/max_reward-1.0/learning_rate_decay-0.96/learning_rate_minimum-0.00025/env_name-Breakout-v0/ep_end-0.1/model-m1/screen_height-84/-3800000
+
+avg_r: 0.0644, avg_l: 0.119016, avg_q: 6.462344, avg_ep_r: 2.8552, max_ep_r: 20.0000, min_ep_r: 0.0000, # game: 1126
+ [*] Saving checkpoints...
+
+avg_r: 0.0656, avg_l: 0.140636, avg_q: 6.412249, avg_ep_r: 2.8366, max_ep_r: 37.0000, min_ep_r: 0.0000, # game: 1157
+ [*] Saving checkpoints...
+
+avg_r: 0.0668, avg_l: 0.136491, avg_q: 6.429790, avg_ep_r: 2.8343, max_ep_r: 24.0000, min_ep_r: 0.0000, # game: 1177
+ [*] Saving checkpoints...
+
+avg_r: 0.0663, avg_l: 0.136648, avg_q: 6.424036, avg_ep_r: 2.7296, max_ep_r: 24.0000, min_ep_r: 0.0000, # game: 1213
+ [*] Saving checkpoints...
+
+avg_r: 0.0639, avg_l: 0.147772, avg_q: 6.429670, avg_ep_r: 2.8132, max_ep_r: 22.0000, min_ep_r: 0.0000, # game: 1135
+ [*] Saving checkpoints...
+
+avg_r: 0.0679, avg_l: 0.160284, avg_q: 6.479007, avg_ep_r: 3.0586, max_ep_r: 25.0000, min_ep_r: 0.0000, # game: 1109
+ [*] Saving checkpoints...
+
+avg_r: 0.0690, avg_l: 0.155034, avg_q: 6.477131, avg_ep_r: 2.9733, max_ep_r: 22.0000, min_ep_r: 0.0000, # game: 1160
+ [*] Saving checkpoints...
+
+avg_r: 0.0654, avg_l: 0.150925, avg_q: 6.501479, avg_ep_r: 2.8425, max_ep_r: 25.0000, min_ep_r: 0.0000, # game: 1149
+ [*] Saving checkpoints...
+
+avg_r: 0.0643, avg_l: 0.142553, avg_q: 6.490544, avg_ep_r: 3.0254, max_ep_r: 25.0000, min_ep_r: 0.0000, # game: 1061
+ [*] Saving checkpoints...
+Job ID: 1085762
+Job Name: dqn
+Resources Requested: mem=8gb,ncpus=1,neednodes=1:ppn=1,nodes=1:ppn=1,walltime=60:00:00
+Resources Used: cput=16:26:59,energy_used=0,mem=8388608kb,vmem=16536216kb,walltime=16:28:10
+ [*] GPU : 1.0000
+{'_save_step': 500000,
+ '_test_step': 50000,
+ 'action_repeat': 4,
+ 'backend': 'tf',
+ 'batch_size': 32,
+ 'cnn_format': 'NHWC',
+ 'discount': 0.99,
+ 'display': False,
+ 'double_q': False,
+ 'dueling': False,
+ 'env_name': 'Breakout-v0',
+ 'env_type': 'detail',
+ 'ep_end': 0.1,
+ 'ep_end_t': 1000000,
+ 'ep_start': 1.0,
+ 'history_length': 4,
+ 'learn_start': 50000.0,
+ 'learning_rate': 0.00025,
+ 'learning_rate_decay': 0.96,
+ 'learning_rate_decay_step': 50000,
+ 'learning_rate_minimum': 0.00025,
+ 'max_delta': 1,
+ 'max_reward': 1.0,
+ 'max_step': 50000000,
+ 'memory_size': 1000000,
+ 'min_delta': -1,
+ 'min_reward': -1.0,
+ 'model': 'm1',
+ 'random_start': 30,
+ 'scale': 10000,
+ 'screen_height': 84,
+ 'screen_width': 84,
+ 'target_q_update_step': 10000,
+ 'train_frequency': 4}
+ [*] Loading checkpoints...
+ [*] Load SUCCESS: checkpoints/Breakout-v0/min_delta--1/max_delta-1/history_length-4/train_frequency-4/target_q_update_step-10000/double_q-False/memory_size-1000000/action_repeat-4/ep_end_t-1000000/dueling-False/min_reward--1.0/backend-tf/random_start-30/scale-10000/env_type-detail/learning_rate_decay_step-50000/ep_start-1.0/screen_width-84/learn_start-50000.0/cnn_format-NHWC/learning_rate-0.00025/batch_size-32/discount-0.99/max_step-50000000/max_reward-1.0/learning_rate_decay-0.96/learning_rate_minimum-0.00025/env_name-Breakout-v0/ep_end-0.1/model-m1/screen_height-84/-4550000
+
+avg_r: 0.0659, avg_l: 0.107806, avg_q: 6.744805, avg_ep_r: 2.8903, max_ep_r: 20.0000, min_ep_r: 0.0000, # game: 1139
+ [*] Saving checkpoints...
+
+avg_r: 0.0660, avg_l: 0.130060, avg_q: 6.661464, avg_ep_r: 2.9100, max_ep_r: 19.0000, min_ep_r: 0.0000, # game: 1133
+ [*] Saving checkpoints...
+
+avg_r: 0.0676, avg_l: 0.132900, avg_q: 6.631054, avg_ep_r: 2.9947, max_ep_r: 19.0000, min_ep_r: 0.0000, # game: 1129
+ [*] Saving checkpoints...
+
+avg_r: 0.0658, avg_l: 0.134879, avg_q: 6.599608, avg_ep_r: 2.8978, max_ep_r: 22.0000, min_ep_r: 0.0000, # game: 1135
+ [*] Saving checkpoints...
+
+avg_r: 0.0670, avg_l: 0.141214, avg_q: 6.561435, avg_ep_r: 2.9760, max_ep_r: 22.0000, min_ep_r: 0.0000, # game: 1125
+ [*] Saving checkpoints...
+
+avg_r: 0.0667, avg_l: 0.143480, avg_q: 6.565832, avg_ep_r: 2.9848, max_ep_r: 19.0000, min_ep_r: 0.0000, # game: 1117
+ [*] Saving checkpoints...
+
+avg_r: 0.0664, avg_l: 0.139744, avg_q: 6.533584, avg_ep_r: 2.8328, max_ep_r: 24.0000, min_ep_r: 0.0000, # game: 1172
+ [*] Saving checkpoints...
+
+avg_r: 0.0672, avg_l: 0.135245, avg_q: 6.572302, avg_ep_r: 2.8882, max_ep_r: 19.0000, min_ep_r: 0.0000, # game: 1163
+ [*] Saving checkpoints...
+
+avg_r: 0.0663, avg_l: 0.135689, avg_q: 6.619132, avg_ep_r: 2.6965, max_ep_r: 18.0000, min_ep_r: 0.0000, # game: 1229
+ [*] Saving checkpoints...
+
+avg_r: 0.0665, avg_l: 0.142052, avg_q: 6.610827, avg_ep_r: 2.7769, max_ep_r: 30.0000, min_ep_r: 0.0000, # game: 1197
+ [*] Saving checkpoints...
+
+avg_r: 0.0657, avg_l: 0.143904, avg_q: 6.595540, avg_ep_r: 2.8873, max_ep_r: 22.0000, min_ep_r: 0.0000, # game: 1136
+ [*] Saving checkpoints...
+
+avg_r: 0.0653, avg_l: 0.146289, avg_q: 6.619994, avg_ep_r: 2.7938, max_ep_r: 21.0000, min_ep_r: 0.0000, # game: 1169
+ [*] Saving checkpoints...
+
+avg_r: 0.0651, avg_l: 0.141988, avg_q: 6.628681, avg_ep_r: 2.8660, max_ep_r: 29.0000, min_ep_r: 0.0000, # game: 1134
+ [*] Saving checkpoints...
+
+avg_r: 0.0640, avg_l: 0.143423, avg_q: 6.618177, avg_ep_r: 2.7391, max_ep_r: 25.0000, min_ep_r: 0.0000, # game: 1169
+ [*] Saving checkpoints...
+
+avg_r: 0.0679, avg_l: 0.147083, avg_q: 6.681136, avg_ep_r: 2.7616, max_ep_r: 28.0000, min_ep_r: 0.0000, # game: 1229
+ [*] Saving checkpoints...
+
+avg_r: 0.0660, avg_l: 0.148228, avg_q: 6.694030, avg_ep_r: 2.8269, max_ep_r: 26.0000, min_ep_r: 0.0000, # game: 1167
+ [*] Saving checkpoints...
+
+avg_r: 0.0683, avg_l: 0.151333, avg_q: 6.697045, avg_ep_r: 2.8278, max_ep_r: 23.0000, min_ep_r: 0.0000, # game: 1208
+ [*] Saving checkpoints...
+
+avg_r: 0.0641, avg_l: 0.147039, avg_q: 6.754596, avg_ep_r: 2.7301, max_ep_r: 18.0000, min_ep_r: 0.0000, # game: 1171
+ [*] Saving checkpoints...
+
+avg_r: 0.0682, avg_l: 0.158278, avg_q: 6.758894, avg_ep_r: 3.1075, max_ep_r: 22.0000, min_ep_r: 0.0000, # game: 1098
+ [*] Saving checkpoints...
+
+avg_r: 0.0657, avg_l: 0.150467, avg_q: 6.762288, avg_ep_r: 2.8619, max_ep_r: 21.0000, min_ep_r: 0.0000, # game: 1144
+ [*] Saving checkpoints...
+
+avg_r: 0.0672, avg_l: 0.148223, avg_q: 6.801977, avg_ep_r: 2.8974, max_ep_r: 24.0000, min_ep_r: 0.0000, # game: 1160
+ [*] Saving checkpoints...
+
+avg_r: 0.0640, avg_l: 0.149610, avg_q: 6.761076, avg_ep_r: 2.7131, max_ep_r: 20.0000, min_ep_r: 0.0000, # game: 1178
+
+avg_r: 0.0635, avg_l: 0.156579, avg_q: 6.757311, avg_ep_r: 2.7169, max_ep_r: 22.0000, min_ep_r: 0.0000, # game: 1169
+
+avg_r: 0.0688, avg_l: 0.163185, avg_q: 6.721138, avg_ep_r: 3.0087, max_ep_r: 25.0000, min_ep_r: 0.0000, # game: 1143
+ [*] Saving checkpoints...
+
+avg_r: 0.0678, avg_l: 0.157357, avg_q: 6.753561, avg_ep_r: 2.9850, max_ep_r: 22.0000, min_ep_r: 0.0000, # game: 1133
+ [*] Saving checkpoints...
+
+avg_r: 0.0645, avg_l: 0.156525, avg_q: 6.729986, avg_ep_r: 2.7962, max_ep_r: 17.0000, min_ep_r: 0.0000, # game: 1153
+
+avg_r: 0.0686, avg_l: 0.159484, avg_q: 6.665822, avg_ep_r: 3.0780, max_ep_r: 23.0000, min_ep_r: 0.0000, # game: 1115
+ [*] Saving checkpoints...
+
+avg_r: 0.0652, avg_l: 0.155343, avg_q: 6.597671, avg_ep_r: 2.8348, max_ep_r: 21.0000, min_ep_r: 0.0000, # game: 1150
+ [*] Saving checkpoints...
+
+avg_r: 0.0658, avg_l: 0.154269, avg_q: 6.565817, avg_ep_r: 2.8834, max_ep_r: 21.0000, min_ep_r: 0.0000, # game: 1141
+ [*] Saving checkpoints...
+
+avg_r: 0.0662, avg_l: 0.149292, avg_q: 6.570254, avg_ep_r: 3.0368, max_ep_r: 27.0000, min_ep_r: 0.0000, # game: 1088
+ [*] Saving checkpoints...
+
+avg_r: 0.0676, avg_l: 0.155580, avg_q: 6.556971, avg_ep_r: 3.0405, max_ep_r: 29.0000, min_ep_r: 0.0000, # game: 1111
+ [*] Saving checkpoints...
+
+avg_r: 0.0640, avg_l: 0.147120, avg_q: 6.610921, avg_ep_r: 2.7280, max_ep_r: 21.0000, min_ep_r: 0.0000, # game: 1173
+
+avg_r: 0.0653, avg_l: 0.150442, avg_q: 6.545031, avg_ep_r: 2.9291, max_ep_r: 26.0000, min_ep_r: 0.0000, # game: 1114
+ [*] Saving checkpoints...
+
+avg_r: 0.0663, avg_l: 0.152021, avg_q: 6.546161, avg_ep_r: 2.9036, max_ep_r: 22.0000, min_ep_r: 0.0000, # game: 1141
+ [*] Saving checkpoints...
+
+avg_r: 0.0679, avg_l: 0.152758, avg_q: 6.523856, avg_ep_r: 2.9746, max_ep_r: 23.0000, min_ep_r: 0.0000, # game: 1141
+ [*] Saving checkpoints...
+
+avg_r: 0.0650, avg_l: 0.144465, avg_q: 6.505288, avg_ep_r: 2.7861, max_ep_r: 21.0000, min_ep_r: 0.0000, # game: 1164
+
+avg_r: 0.0679, avg_l: 0.146982, avg_q: 6.517561, avg_ep_r: 2.9859, max_ep_r: 31.0000, min_ep_r: 0.0000, # game: 1137
+ [*] Saving checkpoints...
+
+avg_r: 0.0665, avg_l: 0.144912, avg_q: 6.555477, avg_ep_r: 2.9901, max_ep_r: 18.0000, min_ep_r: 0.0000, # game: 1112
+ [*] Saving checkpoints...
+
+avg_r: 0.0663, avg_l: 0.147946, avg_q: 6.550867, avg_ep_r: 2.8378, max_ep_r: 27.0000, min_ep_r: 0.0000, # game: 1165
+ [*] Saving checkpoints...
+
+avg_r: 0.0648, avg_l: 0.150976, avg_q: 6.533476, avg_ep_r: 2.8706, max_ep_r: 21.0000, min_ep_r: 0.0000, # game: 1128
+ [*] Saving checkpoints...
+
+avg_r: 0.0649, avg_l: 0.145425, avg_q: 6.462742, avg_ep_r: 2.8341, max_ep_r: 23.0000, min_ep_r: 0.0000, # game: 1145
+ [*] Saving checkpoints...
+
+avg_r: 0.0656, avg_l: 0.140610, avg_q: 6.419835, avg_ep_r: 2.8488, max_ep_r: 18.0000, min_ep_r: 0.0000, # game: 1151
+ [*] Saving checkpoints...
+
+avg_r: 0.0663, avg_l: 0.146602, avg_q: 6.391381, avg_ep_r: 2.8398, max_ep_r: 24.0000, min_ep_r: 0.0000, # game: 1167
+ [*] Saving checkpoints...
+
+avg_r: 0.0661, avg_l: 0.137244, avg_q: 6.368770, avg_ep_r: 2.8024, max_ep_r: 24.0000, min_ep_r: 0.0000, # game: 1179
+ [*] Saving checkpoints...
+
+avg_r: 0.0686, avg_l: 0.141927, avg_q: 6.347687, avg_ep_r: 2.9059, max_ep_r: 28.0000, min_ep_r: 0.0000, # game: 1180
+ [*] Saving checkpoints...
+
+avg_r: 0.0680, avg_l: 0.145219, avg_q: 6.382854, avg_ep_r: 3.0503, max_ep_r: 24.0000, min_ep_r: 0.0000, # game: 1114
+ [*] Saving checkpoints...
+
+avg_r: 0.0686, avg_l: 0.141792, avg_q: 6.402511, avg_ep_r: 2.9075, max_ep_r: 28.0000, min_ep_r: 0.0000, # game: 1178
+ [*] Saving checkpoints...
+
+avg_r: 0.0673, avg_l: 0.140817, avg_q: 6.413849, avg_ep_r: 2.7263, max_ep_r: 23.0000, min_ep_r: 0.0000, # game: 1235
+
+avg_r: 0.0688, avg_l: 0.149194, avg_q: 6.454409, avg_ep_r: 2.9612, max_ep_r: 25.0000, min_ep_r: 0.0000, # game: 1161
+ [*] Saving checkpoints...
+
+avg_r: 0.0687, avg_l: 0.153334, avg_q: 6.470303, avg_ep_r: 2.8995, max_ep_r: 33.0000, min_ep_r: 0.0000, # game: 1184
+ [*] Saving checkpoints...
+
+avg_r: 0.0685, avg_l: 0.151695, avg_q: 6.470580, avg_ep_r: 2.9956, max_ep_r: 21.0000, min_ep_r: 0.0000, # game: 1143
+ [*] Saving checkpoints...
+
+avg_r: 0.0659, avg_l: 0.144380, avg_q: 6.476150, avg_ep_r: 2.8452, max_ep_r: 37.0000, min_ep_r: 0.0000, # game: 1156
+ [*] Saving checkpoints...
+
+avg_r: 0.0679, avg_l: 0.147248, avg_q: 6.438472, avg_ep_r: 2.9807, max_ep_r: 21.0000, min_ep_r: 0.0000, # game: 1139
+ [*] Saving checkpoints...
+
+avg_r: 0.0682, avg_l: 0.143490, avg_q: 6.437894, avg_ep_r: 3.0730, max_ep_r: 24.0000, min_ep_r: 0.0000, # game: 1110
+ [*] Saving checkpoints...
+
+avg_r: 0.0711, avg_l: 0.151880, avg_q: 6.382725, avg_ep_r: 3.0472, max_ep_r: 25.0000, min_ep_r: 0.0000, # game: 1166
+ [*] Saving checkpoints...
+
+avg_r: 0.0682, avg_l: 0.142274, avg_q: 6.347680, avg_ep_r: 2.9229, max_ep_r: 23.0000, min_ep_r: 0.0000, # game: 1167
+ [*] Saving checkpoints...
