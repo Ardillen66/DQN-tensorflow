@@ -4,6 +4,7 @@ class AgentConfig(object):
 
   max_step = 5000 * scale
   memory_size = 100 * scale
+  replay_memory = "Uniform"
 
   batch_size = 32
   random_start = 30

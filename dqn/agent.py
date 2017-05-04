@@ -8,7 +8,7 @@ import tensorflow as tf
 
 from .base import BaseModel
 from .history import History
-from .replay_memory import ReplayMemory
+from .replay_memory import *
 from .ops import linear, conv2d, clipped_error
 from .utils import get_time, save_pkl, load_pkl
 
@@ -20,7 +20,10 @@ class Agent(BaseModel):
 
     self.env = environment
     self.history = History(self.config)
-    self.memory = ReplayMemory(self.config, self.model_dir)
+
+    #Old way of replay memoty initialization
+    #self.memory = ReplayMemory(self.config, self.model_dir)
+    self.init_replay(config.replay_memory)
 
     with tf.variable_scope('step'):
       self.step_op = tf.Variable(0, trainable=False, name='step')
@@ -28,6 +31,22 @@ class Agent(BaseModel):
       self.step_assign_op = self.step_op.assign(self.step_input)
 
     self.build_dqn()
+
+  ###################################Replay memory extension here:####################################
+  def init_replay(self, config):
+    """
+    Initializes the correct type of replay memory given a config
+    """
+    memType = config.replay_memory
+    if memType == 'Uniform':
+      self.memory = ReplayUniform(config)
+    elif memType == 'Ranked':
+      self.memory = ReplayRanked(config)
+    else:
+      print('Unknown replay memory type')
+      raise ValueError('Unknown replay memory type')
+
+  ######################################Original code:##################################################
 
   def train(self):
     start_step = self.step_op.eval()
@@ -128,8 +147,11 @@ class Agent(BaseModel):
   def observe(self, screen, reward, action, terminal):
     reward = max(self.min_reward, min(self.max_reward, reward))
 
+    #Added for priority replay
+    previous_screen = self.history.get()
+
     self.history.add(screen)
-    self.memory.add(screen, reward, action, terminal)
+    self.memory.add(previous_screen, reward, action, screen, terminal)
 
     if self.step > self.learn_start:
       if self.step % self.train_frequency == 0:
@@ -142,7 +164,7 @@ class Agent(BaseModel):
     if self.memory.count < self.history_length:
       return
     else:
-      s_t, action, reward, s_t_plus_1, terminal = self.memory.sample()
+      s_t, action, reward, s_t_plus_1, terminal = self.memory.sample(self.step)
 
     t = time.time()
     if self.double_q:
@@ -168,6 +190,7 @@ class Agent(BaseModel):
       self.learning_rate_step: self.step,
     })
 
+    #TODO: calculate TD error and update priorities
    
     self.total_loss += loss
     self.total_q += q_t.mean()

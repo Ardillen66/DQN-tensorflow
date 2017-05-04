@@ -1,0 +1,3 @@
+[submodule "prioritized-experience-replay"]
+	path = prioritized-experience-replay
+	url = https://github.com/Damcy/prioritized-experience-replay.git

@@ -6,8 +6,38 @@ import logging
 import numpy as np
 
 from .utils import save_npy, load_npy
+from ..prioritized-experience-replay.rank_based import Experience
 
-class ReplayMemory:
+
+class ReplayMemory(object):
+  """
+  Abstract super class for replay memory.
+  Defines required methods and configuration
+  All implementations need to implement this class
+  """
+
+  def __init__(self, config, model_dir):
+    raise NotImplementedError('Subclasses must override initialization!')
+
+  def add(self, previous, reward, action, next, terminal):
+    raise NotImplementedError('Subclasses must override add!')
+
+  def getState(self, index):
+    raise NotImplementedError('Subclasses must override getState!')
+
+  def sample(self, step):
+    raise NotImplementedError('Subclasses must override sample!')
+
+  def save(self):
+    raise NotImplementedError('Subclasses must override save!')
+
+  def load(self):
+    raise NotImplementedError('Subclasses must override load!')
+
+
+
+
+class ReplayUniform(ReplayMemory):
   def __init__(self, config, model_dir):
     self.model_dir = model_dir
 
@@ -27,12 +57,12 @@ class ReplayMemory:
     self.prestates = np.empty((self.batch_size, self.history_length) + self.dims, dtype = np.float16)
     self.poststates = np.empty((self.batch_size, self.history_length) + self.dims, dtype = np.float16)
 
-  def add(self, screen, reward, action, terminal):
-    assert screen.shape == self.dims
+  def add(self, previous, reward, action, next, terminal):
+    assert next.shape == self.dims
     # NB! screen is post-state, after action and reward
     self.actions[self.current] = action
     self.rewards[self.current] = reward
-    self.screens[self.current, ...] = screen
+    self.screens[self.current, ...] = next
     self.terminals[self.current] = terminal
     self.count = max(self.count, self.current + 1)
     self.current = (self.current + 1) % self.memory_size
@@ -50,7 +80,7 @@ class ReplayMemory:
       indexes = [(index - i) % self.count for i in reversed(range(self.history_length))]
       return self.screens[indexes, ...]
 
-  def sample(self):
+  def sample(self, step): #Step not used here, but passed for generic purposes
     # memory must include poststate, prestate and history
     assert self.count > self.history_length
     # sample random indexes
@@ -97,29 +127,51 @@ class ReplayMemory:
             [self.actions, self.rewards, self.screens, self.terminals, self.prestates, self.poststates])):
       array = load_npy(os.path.join(self.model_dir, name))
 
+
 class ReplayRanked(ReplayMemory):
   """
   Wrapper class for prioirity replay to match base class
-  TODO: implement own or defer to github code?
   """
   
 
   def __init__(self, config, model_dir):
-    super(ReplayRanked, self).__init__(config, model_dir)
-    #TODO Initialize binary heap PQ
+    self.model_dir = model_dir
+    self.cnn_format = config.cnn_format
+    self.dims = (config.screen_height, config.screen_width)
+    self.history_length = config.history_length
 
-  def add(self, screen, reward, action, terminal):
-    #TODO: convert params to fit chosen implementation or just add using our own
-    super.add(screen, reward, action, terminal)
-    #TODO: add to priority queue
+    #Covert configuration to appropriate one for prioritized replay memory
+    expConfig = {
+      'size': config.memory_size,
+      'batch_size': config.batch_size,
+      'learn_start': config.learn_start,
+      'total_steps': config.max_step #Is this the same? TODO: check this
+    }
+    self.exp = Experience(expConfig)
 
-  def getState(self, index):
-    #TODO: does this need to be reïmplemented?
-    pass
+    self.count = 0
+    self.current = 0
 
-  def sample(self):
-    #TODO: this one needs to be completely reïmplemented
-    pass
+  def add(self, previous, reward, action, next, terminal):
+    assert next.shape == self.dims
+    #Convert stored experience to tuple
+    experience = (previous, action, reward, next, terminal)
+    self.exp.store(experience)
+
+    self.count = max(self.count, self.current + 1)
+    self.current = (self.current + 1) % self.memory_size
+
+  def sample(self, step):
+
+    actions = np.empty(exp.batch_size, dtype = np.uint8)
+    rewards = np.empty(exp.batch_size, dtype = np.integer)
+    terminals = np.empty(exp.batch_size, dtype = np.bool)
+    prestates = np.empty((exp.batch_size, self.history_length) + self.dims, dtype = np.float16)
+    poststates = np.empty((exp.batch_size, self.history_length) + self.dims, dtype = np.float16)
+    
+    experience, w, exp_indices = self.exp.sample(step)
+    for ex in experience:
+      pass
 
   def save(self):
     #TODO also save priorities
