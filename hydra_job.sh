@@ -4,7 +4,7 @@
 # memory requirements change this when using more/less experience replay samples
 #PBS -l mem=16gb
 # max run time
-#PBS -l walltime=500:00:00
+#PBS -l walltime=200:00:00
 # output and error files
 #PBS -o dqn.out
 #PBS -e dqn.err
