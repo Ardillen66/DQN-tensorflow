@@ -4,16 +4,16 @@
 # memory requirements change this when using more/less experience replay samples
 #PBS -l mem=16gb
 # max run time
-#PBS -l walltime=100:00:00
+#PBS -l walltime=500:00:00
 # output and error files
 #PBS -o dqn.out
 #PBS -e dqn.err
 #PBS -N dqn
 #PBS -V
 
-module add openblas
+module add OpenBLAS
 cd $HOME
 source .bashrc
 source activate dqn
-cd DQN-tensorflow
+cd DQN-tensorflow-priorityReplay
 python main.py --use_gpu 0
