@@ -174,8 +174,10 @@ class ReplayRanked(ReplayMemory):
       pass
 
   def save(self):
+    pass
     #TODO also save priorities
 
   def load(self):
+    pass
     #TODO also load priorities
     
