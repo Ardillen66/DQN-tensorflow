@@ -6,7 +6,7 @@ import logging
 import numpy as np
 
 from .utils import save_npy, load_npy
-from ..prioritized-experience-replay.rank_based import Experience
+from ..prioritized_experience_replay.rank_based import Experience
 
 
 class ReplayMemory(object):
