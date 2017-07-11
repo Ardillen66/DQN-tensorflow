@@ -95,3 +95,12 @@ class SimpleGymEnvironment(Environment):
 
     self.after_act(action)
     return self.state
+
+  @property
+  def lives(self):
+    return 0
+
+  @ property
+  def screen(self):
+    #return imresize(rgb2gray(self._screen)/255., self.dims)
+    return cv2.resize(cv2.cvtColor(self._screen, cv2.COLOR_BGR2YCR_CB)/255., self.dims)[:,:,0]

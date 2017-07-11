@@ -23,7 +23,7 @@ class Agent(BaseModel):
 
     #Old way of replay memoty initialization
     #self.memory = ReplayMemory(self.config, self.model_dir)
-    self.init_replay(config.replay_memory)
+    self.init_replay()
 
     with tf.variable_scope('step'):
       self.step_op = tf.Variable(0, trainable=False, name='step')
@@ -33,15 +33,15 @@ class Agent(BaseModel):
     self.build_dqn()
 
   ###################################Replay memory extension here:####################################
-  def init_replay(self, config):
+  def init_replay(self):
     """
     Initializes the correct type of replay memory given a config
     """
-    memType = config.replay_memory
+    memType = self.config.replay_memory
     if memType == 'Uniform':
-      self.memory = ReplayUniform(config)
+      self.memory = ReplayUniform(self.config, self.model_dir)
     elif memType == 'Ranked':
-      self.memory = ReplayRanked(config)
+      self.memory = ReplayRanked(self.config, self.model_dir)
     else:
       print('Unknown replay memory type')
       raise ValueError('Unknown replay memory type')
