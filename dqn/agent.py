@@ -164,7 +164,10 @@ class Agent(BaseModel):
     if self.memory.count < self.history_length:
       return
     else:
-      s_t, action, reward, s_t_plus_1, terminal = self.memory.sample(self.step)
+      if self.memType == "Uniform":
+        s_t, action, reward, s_t_plus_1, terminal = self.memory.sample(self.step)
+      else:
+        s_t, action, reward, s_t_plus_1, terminal, sampling_weights, exp_indices # Prioritized replay with TD error
 
     t = time.time()
     if self.double_q:
@@ -183,14 +186,23 @@ class Agent(BaseModel):
       max_q_t_plus_1 = np.max(q_t_plus_1, axis=1)
       target_q_t = (1. - terminal) * self.discount * max_q_t_plus_1 + reward
 
-    _, q_t, loss = self.sess.run([self.optim, self.q, self.loss], {
+    # To override placeholders in optimizer
+    feed_dict = {
       self.target_q_t: target_q_t,
       self.action: action,
       self.s_t: s_t,
       self.learning_rate_step: self.step,
-    })
+    }
 
-    #TODO: calculate TD error and update priorities
+    # Biased update for prioritized replay    
+    if self.memType == 'Ranked':
+      feed_dict[self.is_weights: sampling_weights]
+      # Normal DQN update  
+      _, q_t, loss = self.sess.run([self.optim, self.q, self.loss], feed_dict)
+      self.memory.exp.update_priority(exp_indices, loss)
+      self.memory.exp.rebalance()
+
+    _, q_t, loss = self.sess.run([self.optim, self.q, self.loss], feed_dict)
    
     self.total_loss += loss
     self.total_q += q_t.mean()
@@ -311,8 +323,15 @@ class Agent(BaseModel):
       self.delta = self.target_q_t - q_acted
 
       self.global_step = tf.Variable(0, trainable=False)
+      # Huber loss for normal experience replay
+      if self.memType == 'Uniform':
+        self.loss = tf.reduce_mean(clipped_error(self.delta), name='loss')
+      #Importance sampling for prioritized replay
+      else:
+        self.is_weights = tf.placeholder('float32', [None], name='is_weights') #IS weights
+        self.square_delta = tf.square(self.delta)
+        self.loss = tf.reduce_mean(tf.multiply(self.square_delta, self.is_weights))
 
-      self.loss = tf.reduce_mean(clipped_error(self.delta), name='loss')
       self.learning_rate_step = tf.placeholder('int64', None, name='learning_rate_step')
       self.learning_rate_op = tf.maximum(self.learning_rate_minimum,
           tf.train.exponential_decay(

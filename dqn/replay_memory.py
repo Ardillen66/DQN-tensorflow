@@ -22,9 +22,6 @@ class ReplayMemory(object):
   def add(self, previous, reward, action, next, terminal):
     raise NotImplementedError('Subclasses must override add!')
 
-  def getState(self, index):
-    raise NotImplementedError('Subclasses must override getState!')
-
   def sample(self, step):
     raise NotImplementedError('Subclasses must override sample!')
 
@@ -163,15 +160,28 @@ class ReplayRanked(ReplayMemory):
 
   def sample(self, step):
 
-    actions = np.empty(exp.batch_size, dtype = np.uint8)
-    rewards = np.empty(exp.batch_size, dtype = np.integer)
-    terminals = np.empty(exp.batch_size, dtype = np.bool)
-    prestates = np.empty((exp.batch_size, self.history_length) + self.dims, dtype = np.float16)
-    poststates = np.empty((exp.batch_size, self.history_length) + self.dims, dtype = np.float16)
+    # memory must include poststate, prestate and history
+    assert self.count > self.history_length
+
+    actions, rewards, terminals, prestates, poststates, td_errs = []
     
     experience, w, exp_indices = self.exp.sample(step)
-    for ex in experience:
-      pass
+
+    for i in range(self.batch_size):
+      sample = experience[i]
+      prestates.append(sample[0])
+      actions.append(sample[1])
+      rewards.append(sample[2])
+      poststates.append(sample[3])
+      terminals.append(sample[4])
+      td_errs.append(self.compute_tde())
+
+
+    if self.cnn_format == 'NHWC':
+      return np.transpose(self.prestates, (0, 2, 3, 1)), actions, \
+        rewards, np.transpose(self.poststates, (0, 2, 3, 1)), terminals
+    else:
+      return prestates, actions, rewards, poststates, terminals, w, exp_indices
 
   def save(self):
     pass
