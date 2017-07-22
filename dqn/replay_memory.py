@@ -184,10 +184,10 @@ class ReplayRanked(ReplayMemory):
       return prestates, actions, rewards, poststates, terminals, w, exp_indices
 
   def save(self):
-    pass
-    #TODO also save priorities
+    if not os.path.exists(self.model_dir):
+      os.makedirs(self.model_dir)
+    save_pkl(experience, os.path.join(self.model_dir, 'experience.pkl'))
 
   def load(self):
-    pass
-    #TODO also load priorities
+    self.exp = load_pkl(path)
     
