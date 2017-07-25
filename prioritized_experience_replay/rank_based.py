@@ -155,7 +155,7 @@ class Experience(object):
             sys.stderr.write('Record size less than learn start! Sample failed\n')
             return False, False, False
 
-        dist_index = int(math.floor(self.record_size / self.size * self.partition_num))
+        dist_index = int(math.floor((self.record_size * 1.0) / self.size * self.partition_num))#Implicit cast to float
         # issue 1 by @camigord
         partition_size = int(math.floor(self.size / self.partition_num))
         partition_max = dist_index * partition_size

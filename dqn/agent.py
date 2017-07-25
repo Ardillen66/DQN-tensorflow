@@ -37,10 +37,10 @@ class Agent(BaseModel):
     """
     Initializes the correct type of replay memory given a config
     """
-    memType = self.config.replay_memory
-    if memType == 'Uniform':
+    self.memType = self.config.replay_memory
+    if self.memType == 'Uniform':
       self.memory = ReplayUniform(self.config, self.model_dir)
-    elif memType == 'Ranked':
+    elif self.memType == 'Ranked':
       self.memory = ReplayRanked(self.config, self.model_dir)
     else:
       print('Unknown replay memory type')
@@ -147,11 +147,8 @@ class Agent(BaseModel):
   def observe(self, screen, reward, action, terminal):
     reward = max(self.min_reward, min(self.max_reward, reward))
 
-    #Added for priority replay
-    previous_screen = self.history.get()
-
     self.history.add(screen)
-    self.memory.add(previous_screen, reward, action, screen, terminal)
+    self.memory.add(reward, action, screen, terminal)
 
     if self.step > self.learn_start:
       if self.step % self.train_frequency == 0:
@@ -161,13 +158,14 @@ class Agent(BaseModel):
         self.update_target_q_network()
 
   def q_learning_mini_batch(self):
+    s_t, action, reward, s_t_plus_1, terminal, sampling_weights, exp_indices = [], [], [], [], [], [], []
     if self.memory.count < self.history_length:
       return
+    
+    if self.memType == "Uniform":
+      s_t, action, reward, s_t_plus_1, terminal = self.memory.sample()
     else:
-      if self.memType == "Uniform":
-        s_t, action, reward, s_t_plus_1, terminal = self.memory.sample(self.step)
-      else:
-        s_t, action, reward, s_t_plus_1, terminal, sampling_weights, exp_indices # Prioritized replay with TD error
+      s_t, action, reward, s_t_plus_1, terminal, sampling_weights, exp_indices = self.memory.sample(self.step)# Prioritized replay with TD error
 
     t = time.time()
     if self.double_q:
@@ -194,16 +192,18 @@ class Agent(BaseModel):
       self.learning_rate_step: self.step,
     }
 
+    q_t, loss = [], []
     # Biased update for prioritized replay    
     if self.memType == 'Ranked':
-      feed_dict[self.is_weights: sampling_weights]
+      feed_dict[self.is_weights] = sampling_weights
       # Normal DQN update  
-      _, q_t, loss = self.sess.run([self.optim, self.q, self.loss], feed_dict)
-      self.memory.exp.update_priority(exp_indices, loss)
-      self.memory.exp.rebalance()
+      _, q_t, loss, td_error = self.sess.run([self.optim, self.q, self.loss, self.delta], feed_dict)
+      self.memory.update_priority(exp_indices, td_error)
+      self.memory.rebalance()
 
-    _, q_t, loss = self.sess.run([self.optim, self.q, self.loss], feed_dict)
-   
+    else:
+      _, q_t, loss = self.sess.run([self.optim, self.q, self.loss], feed_dict)
+
     self.total_loss += loss
     self.total_q += q_t.mean()
     self.update_count += 1
@@ -330,7 +330,7 @@ class Agent(BaseModel):
       else:
         self.is_weights = tf.placeholder('float32', [None], name='is_weights') #IS weights
         self.square_delta = tf.square(self.delta)
-        self.loss = tf.reduce_mean(tf.multiply(self.square_delta, self.is_weights))
+        self.loss = tf.reduce_mean(tf.mul(self.square_delta, self.is_weights))
 
       self.learning_rate_step = tf.placeholder('int64', None, name='learning_rate_step')
       self.learning_rate_op = tf.maximum(self.learning_rate_minimum,
